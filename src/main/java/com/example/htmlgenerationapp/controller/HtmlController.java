@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HtmlController {
     private final HtmlGenerationService htmlService;
 
-    @GetMapping(value = "/generate", produces = MediaType.TEXT_XML_VALUE)
+    @GetMapping(value = "/generate", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> generateHtml() {
         return ResponseEntity.ok(htmlService.generateHtmlPage());
     }
