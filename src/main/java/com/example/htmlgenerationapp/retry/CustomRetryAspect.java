@@ -4,6 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Aspect
 @Component
@@ -23,9 +24,9 @@ public class CustomRetryAspect {
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
             try {
                 return joinPoint.proceed();
-            } catch (Throwable throwable) {
+            } catch (HttpClientErrorException exception) {
                 if (attempt >= maxAttempts) {
-                    throw throwable;
+                    throw exception;
                 }
             }
             Thread.sleep(initialDelay);

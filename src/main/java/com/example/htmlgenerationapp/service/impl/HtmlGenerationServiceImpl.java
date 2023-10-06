@@ -12,6 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HtmlGenerationServiceImpl implements HtmlGenerationService {
+    private static final String HTML_TEMPLATE_START = "<!DOCTYPE html><html lang='en'><head>" +
+            "<meta charset='UTF-8'><title>My HTML page</title></head><body>";
+    private static final String HTML_TEMPLATE_END = "</body></html>";
+    private static final String GENERATED_CONTENT_START = "<p>This is generated content from thread ";
+    private static final String GENERATED_CONTENT_END = ".</p>";
+    private static final int GENERATION_DELAY_MILLISECONDS = 500;
+
     @Override
     public String generateHtmlPage() {
         int numberOfThreads = Runtime.getRuntime().availableProcessors();
@@ -30,16 +37,15 @@ public class HtmlGenerationServiceImpl implements HtmlGenerationService {
                 throw new RuntimeException("Error while generating HTML content", e);
             }
         }
-        return "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>My HTML page"
-                + "</title></head><body>" + htmlContent + "</body></html>";
+        return HTML_TEMPLATE_START + htmlContent + HTML_TEMPLATE_END;
     }
 
     private static class HtmlGenerationTask implements Callable<String> {
         @Override
         public String call() throws Exception {
-            String generatedContent = "<p>This is generated content from thread "
-                    + Thread.currentThread().getName() + ".</p>";
-            Thread.sleep(500);
+            String generatedContent = GENERATED_CONTENT_START + Thread.currentThread().getName()
+                    + GENERATED_CONTENT_END;
+            Thread.sleep(GENERATION_DELAY_MILLISECONDS);
             return generatedContent;
         }
     }

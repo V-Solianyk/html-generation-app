@@ -9,11 +9,15 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class MockApiClientServiceImpl implements MockApiClientService {
+    private static final int MAX_RETRY_ATTEMPTS = 2;
+    private static final long INITIAL_DELAY_MILLISECONDS = 1100L;
+    private static final int MAX_RANDOM_VALUE = 10;
+    private static final int SPEED_LIMIT_THRESHOLD = 5;
     private final Random random = new Random();
 
-    @CustomRetryable(maxAttempts = 6, initialDelay = 1100L)
+    @CustomRetryable(maxAttempts = MAX_RETRY_ATTEMPTS, initialDelay = INITIAL_DELAY_MILLISECONDS)
     public String fetchDataFromExternalApi() {
-        boolean rateLimitExceeded = random.nextInt(10) < 5;
+        boolean rateLimitExceeded = random.nextInt(MAX_RANDOM_VALUE) < SPEED_LIMIT_THRESHOLD;
         if (rateLimitExceeded) {
             System.out.println("The third-party api is not responding");
             throw new HttpClientErrorException(HttpStatus.TOO_MANY_REQUESTS);
