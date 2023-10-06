@@ -11,7 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 public class MockApiClientServiceImpl implements MockApiClientService {
     private final Random random = new Random();
 
-    @CustomRetryable(maxAttempts = 4, initialDelay = 1500L)
+    @CustomRetryable(maxAttempts = 6, initialDelay = 1100L)
     public String fetchDataFromExternalApi() {
         boolean rateLimitExceeded = random.nextInt(10) < 5;
         if (rateLimitExceeded) {

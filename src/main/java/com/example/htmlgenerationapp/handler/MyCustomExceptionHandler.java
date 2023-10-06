@@ -10,8 +10,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class MyCustomExceptionHandler
-        extends ResponseEntityExceptionHandler {
+public class MyCustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = HttpClientErrorException.class)
     protected ResponseEntity<Object> handleHttpClientErrorException() {

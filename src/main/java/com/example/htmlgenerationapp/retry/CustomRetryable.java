@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CustomRetryable {
-    int maxAttempts() default 2;
+    int maxAttempts() default 3;
     long initialDelay() default 1000L;
     double multiplier() default 2.0;
 }
